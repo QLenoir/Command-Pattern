@@ -13,8 +13,8 @@ Ce pattern permet en premier lieu, d'apporter une sécurité dans les applicatio
 Ce diagramme en notation _UML_  nous montre comment fonctionne notre pattern. Mais sans application concrète il peut être difficile de le comprendre. C'est pourquoi nous verrons comment il fonctionne et dans quel cadre il peut être utilisé !
 
 Analysons ce diagramme du pattern :
--	Le Client va déclencher une requête, ici c'est ce qu'on apelle le rôle _d'invoker_ et ici c'est le _Caller_.
--	Cette requête à une commande qui lui est associée, dans noter diagramme c'est la _ConcreteCommande_ qui implémente l'interface _Commande_.
+-	Le client va déclencher une requête, ici c'est ce qu'on apelle le rôle _d'Invoker_ et ici c'est le _Caller_.
+-	Cette requête à une commande qui lui est associée, dans notre diagramme c'est la _ConcreteCommand_ qui implémente l'interface _Commande_.
 -	La _ConcreteCommande_ , grâce à la requête, va ensuite déclencher la méthode de l'objet associée, c'est le _Receiver_ de notre diagramme.
 
 # Exemple d'une application du Command Pattern
