@@ -1,11 +1,12 @@
 # Bienvenue
 
-Bonjour, nous allons présenter dans ce playground, les tenants et aboutissants du _Design Pattern Command_ afin de mieux comprendre son utilité et ses applications.
+Nous allons voir dans ce turoriel, un exemple d'utilisation du _Design Pattern Command_ pour mieux comprendre son utilité et ses applications.
 
 # Introduction
 
-Pour rappel, un design pattern s’applique à un langage orienté objet. Il est une solution à un problème récurrent dans la conception d’applications, et est présenté sous forme d’une organisation de classes. 
+Un design pattern est conçu pour s’appliquer à un langage orienté objet comme _Java_ que nous allons utiliser ici. Un _Design Pattern_ est une solution à un ou des problèmes récurrents dans la conception d'une application, et il est par convention présenté sous forme d’un diagramme de classes. 
 
-Il existe trois types de design pattern : création, structure et le dernier dont nous allons parler aujourd’hui : le type comportemental.
+Il existe trois types de design pattern : Création, Structure et Comportemental. Le _Design Pattern Command_ fait partie de la famille comportementale. Les modèles comportementaux sont des modèles de conception qui identifient les modèles de communication communs entre les objets et réalisent ces modèles. Ce faisant, ces modèles augmentent la souplesse dans l'exécution de cette communication. On peut citer le _Design Pattern Visitor_ par exemple. 
 
-En détaillant l’utilité du pattern command, son implémentation, ainsi qu’un exemple avec ses possibles applications, nous allons essayer d'expliquer pour quelles raisons vous devriez l’utiliser ?
+Nous allons donc détailler l’utilité du _Pattern command_ , comment est faite son implémentation, ainsi qu’un exemple avec ses possibles applications, nous pourrons ensuite dégager les raisons qui vous pousseront à l’utiliser ?
+⊂(◉‿◉)つ
