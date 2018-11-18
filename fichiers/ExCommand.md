@@ -8,487 +8,308 @@ Le _FileSystem_ ici va jouer le rôle du _Client_, le fichier _MyFile_ joue ici 
 
 On crée nos objets _Receiver_ :
 
-- Console :
+- L'interface _FileSystem_ :
 ```java
-public class Console {
 
-	public void on(){
-		System.out.println("La console est allumée");
-	}
-	
-	public void off(){
-		System.out.println("La console est éteinte");
-	}
-	
-	public void startGame(){
-		System.out.println("Jeu lancé");
-	}
-	
-	public void stopGame(){
-		System.out.println("Jeu arrêté");
-	}
+public interface FileSystemReceiver {
+
+	void openFile();
+	void writeFile();
+	void closeFile();
 }
 ```
 
-- Radio : 
+- Un objet _UnixFileSystemReceiver_ qui implémentera l'interface _FileSystem_ : 
 ```java
-public class Radio {
-	
-	private int volume = 0;
-	
-	public void on(){
-		System.out.println("La radio est allumée");
+
+public class UnixFileSystemReceiver implements FileSystemReceiver {
+
+	public void openFile() {
+		System.out.println("Opening file in unix OS");
 	}
-	
-	public void off(){
-		System.out.println("La radio est éteinte");
+
+	public void writeFile() {
+		System.out.println("Writing file in unix OS");
 	}
-	
-	public void volumeUp(){
-		this.volume++;
-		System.out.println("Le volume est de : " + this.volume);
+
+	public void closeFile() {
+		System.out.println("Closing file in unix OS");
 	}
-	
-	public void volumeDown(){
-		this.volume--;
-		System.out.println("Le volume est de : " + this.volume);
-	}
+
 }
 ```
 
-# Deuxième étape
-
-On crée l'interface _Icommande_ qui sera implémentée pour chaque nouvelle commande
+- Un objet _UnixFileSystemReceiver_ qui implémentera l'interface _FileSystem_ : 
 ```java
-public interface Icommande {
 
-	public void execute();
-	public void undo();
+public class WindowsFileSystemReceiver implements FileSystemReceiver {
+
+	public void openFile() {
+		System.out.println("Opening file in Windows OS");
+		
+	}
+
+	public void writeFile() {
+		System.out.println("Writing file in Windows OS");
+	}
+
+	public void closeFile() {
+		System.out.println("Closing file in Windows OS");
+	}
+
 }
 ```
 
-# Troisième étape
-On va créer des commandes destinées à chaque objet
+# L'interface _Command_
 
-Commande permettant d'allumer la console :
+On crée l'interface _Commande_ qui sera implémentée pour chaque nouvelle commande
 ```java
-public class Commande_ConsoleOn implements Icommande{
+public interface Command {
 
-	private Console console;
+	void execute();
+}
+```
+
+# Les _ConcreteCommand_ de notre _FileSystem_
+
+Commande permettant d'ouvrir un fichier :
+```java
+public class OpenFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
 	
-	public Commande_ConsoleOn(Console theConsole) {
-		this.console = theConsole;
+	public OpenFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
 	}
 	
-	@Override
 	public void execute() {
-		this.console.on();		
+		//open command is forwarding request to openFile method
+		this.fileSystem.openFile();
 	}
 
-	@Override
-	public void undo() {
-		this.console.off();
-	}
 }
 ```
-Commande permettant de monter le son de la radio
+Commande permettant de fermer un fichier : 
 ```java
-public class Commande_RadioVolumeUp implements Icommande{
+public class CloseFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
 	
-	private Radio radio;
-	
-	public Commande_RadioVolumeUp(Radio theRadio) {
-		this.radio = theRadio;
+	public CloseFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
 	}
 	
-	@Override
 	public void execute() {
-		this.radio.volumeUp();		
+		this.fileSystem.closeFile();
 	}
 
-	@Override
-	public void undo() {
-		this.radio.volumeDown();
-	}
 }
 ```
-# Quatrième étape
 
-Création de la télécommande
+Commande permettant d'écrire dans un fichier : 
 ```java
-public class Telecommande {
-	private Icommande bouton1;
-	private Icommande bouton2;
-	private Icommande bouton3;
-	private Icommande bouton4;
+public class WriteFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
 	
-	public Telecommande(Icommande btn1, Icommande btn2, Icommande btn3, Icommande btn4){
-		this.bouton1 = btn1;
-		this.bouton2 = btn2;
-		this.bouton3 = btn3;
-		this.bouton4 = btn4;
+	public WriteFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
 	}
 	
-	public Telecommande(Icommande btn1, Icommande btn2){
-		this.bouton1 = btn1;
-		this.bouton2 = btn2;
+	public void execute() {
+		this.fileSystem.writeFile();
+	}
+
+}
+```
+# création de l'_Invoker_
+
+Création du _FileInvoker_ (_MyFile_ sur le diagramme): 
+```java
+public class FileInvoker {
+
+	public Command command;
+	
+	public FileInvoker(Command c){
+		this.command=c;
 	}
 	
-	public void pressBtn1(){
-		this.bouton1.execute();
-	}
-	
-	public void pressBtn2(){
-		this.bouton2.execute();
-	}
-	
-	public void pressBtn3(){
-		this.bouton3.execute();
-	}
-	
-	public void pressBtn4(){
-		this.bouton4.execute();
+	public void execute(){
+		this.command.execute();
 	}
 }
 ```
 
-Nous avons ici fait le choix d'utiliser une télécommande à 4 boutons, comme vous pouvez le remarquer, aucune commande n'a été implémentée pour les boutons, ces commandes seront implémentées directement lors de la création de celle-ci.
+L'encapsulation ici est respectée, on ignore de quoi les _Command_ sont faites.
 
-# Cinquième et dernière étape 
+Nous allons créer un _FileSystemReceiverUtil_ pour fournir un _FileSystemReceiver_ approprié
+```java
+public class FileSystemReceiverUtil {
+	
+	public static FileSystemReceiver getUnderlyingFileSystem(){
+		 String osName = System.getProperty("os.name");
+		 System.out.println("Underlying OS is:"+osName);
+		 if(osName.contains("Windows")){
+			 return new WindowsFileSystemReceiver();
+		 }else{
+			 return new UnixFileSystemReceiver();
+		 }
+	}
+	
+}
+```
+
+# Execution de notre programme
 
 ```java runnable
-// Class Console { autofold 
-class Console {
+// Interface FileSystemReceiver { autofold 
+public interface FileSystemReceiver {
 
-	public void on(){
-		System.out.println("La console est allumée");
-	}
-	
-	public void off(){
-		System.out.println("La console est eteinte");
-	}
-	
-	public void startGame(){
-		System.out.println("Jeu lancé");
-	}
-	
-	public void stopGame(){
-		System.out.println("Jeu arrété");
-	}
+	void openFile();
+	void writeFile();
+	void closeFile();
 }
 // }
-// Class Radio { autofold
-class Radio {
-	
-	private int volume = 0;
-	
-	public void on(){
-		System.out.println("La radio est allumée");
+// Class UnixFileSystemReceiver implements FileSystemReceiver { autofold
+public class UnixFileSystemReceiver implements FileSystemReceiver {
+
+	public void openFile() {
+		System.out.println("Opening file in unix OS");
 	}
-	
-	public void off(){
-		System.out.println("La radio est eteinte");
+
+	public void writeFile() {
+		System.out.println("Writing file in unix OS");
 	}
-	
-	public void volumeUp(){
-		this.volume++;
-		System.out.println("Le volume est de : " + this.volume);
+
+	public void closeFile() {
+		System.out.println("Closing file in unix OS");
 	}
-	
-	public void volumeDown(){
-		this.volume--;
-		System.out.println("Le volume est de : " + this.volume);
-	}
+
 }
 // }
-// Interface Icommande { autofold
-interface Icommande {
+// Class WindowsFile implements FileSystemReceiver { autofold
+ublic class WindowsFileSystemReceiver implements FileSystemReceiver {
 
-	public void execute();
-	public void undo();
+	public void openFile() {
+		System.out.println("Opening file in Windows OS");
+		
+	}
+
+	public void writeFile() {
+		System.out.println("Writing file in Windows OS");
+	}
+
+	public void closeFile() {
+		System.out.println("Closing file in Windows OS");
+	}
+
 }
 // }
-// class Commande_ConsoleOff implements Icommande { autofold
-class Commande_ConsoleOff implements Icommande{
+// Interface Command { autofold
+public interface Command {
 
-	private Console console;
+	void execute();
+}
+// }
+// class OpenFileCommand implements Command { autofold
+public class OpenFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
 	
-	public Commande_ConsoleOff(Console theConsole) {
-		this.console = theConsole;
+	public OpenFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
 	}
 	
+	public void execute() {
+		//open command is forwarding request to openFile method
+		this.fileSystem.openFile();
+	}
+
+}
+// }
+// class CloseFileCommand implements Command { autofold
+public class CloseFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
+	
+	public CloseFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
+	}
+	
+	public void execute() {
+		this.fileSystem.closeFile();
+	}
+
+}
+// }
+// class WriteFileCommand implements Command { autofold
+public class WriteFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
+	
+	public WriteFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
+	}
 	@Override
 	public void execute() {
-		this.console.off();		
-	}
-
-	@Override
-	public void undo() {
-		this.console.on();
-	}
-}
-// }
-// class Commande_ConsoleOn implements Icommande { autofold
-class Commande_ConsoleOn implements Icommande{
-
-	private Console console;
-	
-	public Commande_ConsoleOn(Console theConsole) {
-		this.console = theConsole;
-	}
-	
-	@Override
-	public void execute() {
-		this.console.on();		
-	}
-
-	@Override
-	public void undo() {
-		this.console.off();
-	}
-}
-// }
-// class Commande_ConsoleStopGame implements Icommande { autofold
-class Commande_ConsoleStopGame implements Icommande{
-
-	private Console console;
-	
-	public Commande_ConsoleStopGame(Console theConsole) {
-		this.console = theConsole;
-	}
-	
-	@Override
-	public void execute() {
-		this.console.stopGame();		
-	}
-
-	@Override
-	public void undo() {
-		this.console.startGame();
-	}
-}
-// }
-// class Commande_ConsoleStartGame implements Icommande { autofold
-class Commande_ConsoleStartGame implements Icommande {
-	
-	private Console console;
-	
-	public Commande_ConsoleStartGame(Console theConsole) {
-		this.console = theConsole;
-	}
-	
-	@Override
-	public void execute() {
-		this.console.startGame();		
-	}
-
-	@Override
-	public void undo() {
-		this.console.stopGame();
-	}
-}
-// }
-// class Commande_RadioOn implements Icommande { autofold
-class Commande_RadioOn implements Icommande{
-	
-	private Radio radio;
-	
-	public Commande_RadioOn(Radio theRadio) {
-		this.radio = theRadio;
-	}
-	
-	@Override
-	public void execute() {
-		this.radio.on();		
-	}
-
-	@Override
-	public void undo() {
-		this.radio.off();
-	}
-}
-// }
-// class Commande_RadioOff implements Icommande { autofold
-class Commande_RadioOff implements Icommande{
-	
-	private Radio radio;
-	
-	public Commande_RadioOff(Radio theRadio) {
-		this.radio = theRadio;
-	}
-	
-	@Override
-	public void execute() {
-		this.radio.off();		
-	}
-
-	@Override
-	public void undo() {
-		this.radio.on();
-	}
-}
-// }
-// class Commande_RadioVolumeUp implements Icommande { autofold
-class Commande_RadioVolumeUp implements Icommande{
-	
-	private Radio radio;
-	
-	public Commande_RadioVolumeUp(Radio theRadio) {
-		this.radio = theRadio;
-	}
-	
-	@Override
-	public void execute() {
-		this.radio.volumeUp();		
-	}
-
-	@Override
-	public void undo() {
-		this.radio.volumeDown();
-	}
-}
-// }
-// class Commande_RadioVolumeDown implements Icommande { autofold
-class Commande_RadioVolumeDown implements Icommande{
-
-	private Radio radio;
-	
-	public Commande_RadioVolumeDown(Radio theRadio) {
-		this.radio = theRadio;
-	}
-	
-	@Override
-	public void execute() {
-		this.radio.volumeDown();		
-	}
-
-	@Override
-	public void undo() {
-		this.radio.volumeUp();
-	}
-}
-// }
-// class Commande_OnAll implements Icommande { autofold
-class Commande_OnAll implements Icommande{
-	
-	private Console console;
-	private Radio radio;
-	
-	public Commande_OnAll(Console theConsole, Radio theRadio) {
-		this.console = theConsole;
-		this.radio = theRadio;
-	}
-	
-	@Override
-	public void execute() {
-		this.console.on();
-		this.radio.on();
-	}
-
-	@Override
-	public void undo() {
-		this.console.off();
-		this.radio.off();
+		this.fileSystem.writeFile();
 	}
 
 }
 // }
-// class Commande_OffAll implements Icommande { autofold
-class Commande_OffAll implements Icommande{
-	
-	private Console console;
-	private Radio radio;
-	
-	public Commande_OffAll(Console theConsole, Radio theRadio) {
-		this.console = theConsole;
-		this.radio = theRadio;
-	}
-	
-	@Override
-	public void execute() {
-		this.console.off();
-		this.radio.off();
-	}
+// class FileInvoker { autofold
+public class FileInvoker {
 
-	@Override
-	public void undo() {
-		this.console.on();
-		this.radio.on();
+	public Command command;
+	
+	public FileInvoker(Command c){
+		this.command=c;
+	}
+	
+	public void execute(){
+		this.command.execute();
 	}
 }
 // }
-// class Telecommande { autofold
-class Telecommande {
-	private Icommande bouton1;
-	private Icommande bouton2;
-	private Icommande bouton3;
-	private Icommande bouton4;
+// class FileSystemReceiverUtil { autofold
+public class FileSystemReceiverUtil {
 	
-	public Telecommande(Icommande btn1, Icommande btn2, Icommande btn3, Icommande btn4){
-		this.bouton1 = btn1;
-		this.bouton2 = btn2;
-		this.bouton3 = btn3;
-		this.bouton4 = btn4;
+	public static FileSystemReceiver getUnderlyingFileSystem(){
+		 String osName = System.getProperty("os.name");
+		 System.out.println("Underlying OS is:"+osName);
+		 if(osName.contains("Windows")){
+			 return new WindowsFileSystemReceiver();
+		 }else{
+			 return new UnixFileSystemReceiver();
+		 }
 	}
 	
-	public Telecommande(Icommande btn1, Icommande btn2){
-		this.bouton1 = btn1;
-		this.bouton2 = btn2;
-	}
-	
-	public void pressBtn1(){
-		this.bouton1.execute();
-	}
-	
-	public void pressBtn2(){
-		this.bouton2.execute();
-	}
-	
-	public void pressBtn3(){
-		this.bouton3.execute();
-	}
-	
-	public void pressBtn4(){
-		this.bouton4.execute();
-	}
 }
 // }
-
-public class Main {
+public class FileSystemClient {
 
 	public static void main(String[] args) {
-		// Creation télécommande Radio
-		Radio radio = new Radio();
-		Telecommande telecommandeRadio = new Telecommande(new Commande_RadioOn(radio), new Commande_RadioOff(radio),
-				new Commande_RadioVolumeUp(radio), new Commande_RadioVolumeDown(radio));
+		//Creating the receiver object
+		FileSystemReceiver fs = FileSystemReceiverUtil.getUnderlyingFileSystem();
 		
-		//Creation télécommande Console
-		Console console = new Console();
-		Telecommande telecommandeConsole = new Telecommande(new Commande_ConsoleOn(console), new Commande_ConsoleOff(console),
-				new Commande_ConsoleStartGame(console), new Commande_ConsoleStopGame(console));
+		//creating command and associating with receiver
+		OpenFileCommand openFileCommand = new OpenFileCommand(fs);
 		
-		//Test télécommande radio
-		telecommandeRadio.pressBtn1(); //On allume la radio
-		telecommandeRadio.pressBtn3(); //VolumeUp
-		telecommandeRadio.pressBtn3(); //VolumeUp
-		telecommandeRadio.pressBtn4(); //VolumeDown
-		telecommandeRadio.pressBtn2(); //On éteint la radio
+		//Creating invoker and associating with Command
+		FileInvoker file = new FileInvoker(openFileCommand);
 		
-		System.out.println("");
+		//perform action on invoker object
+		file.execute();
 		
-		//Test télécommande console
-		telecommandeConsole.pressBtn1(); //On allume la console
-		telecommandeConsole.pressBtn3(); //StartGame
-		telecommandeConsole.pressBtn4(); //StopGame
-		telecommandeConsole.pressBtn2(); //on éteint la console
+		WriteFileCommand writeFileCommand = new WriteFileCommand(fs);
+		file = new FileInvoker(writeFileCommand);
+		file.execute();
 		
-		System.out.println("");
-		
-		//Et si on faisait une télécommande pour gérer l'état de chaque device...
-		Telecommande telecommandeMultiple = new Telecommande(new Commande_OnAll(console, radio), new Commande_OffAll(console, radio));
-		
-		telecommandeMultiple.pressBtn1();
-		telecommandeMultiple.pressBtn2();
+		CloseFileCommand closeFileCommand = new CloseFileCommand(fs);
+		file = new FileInvoker(closeFileCommand);
+		file.execute();
 	}
+
 }
+
 ```
