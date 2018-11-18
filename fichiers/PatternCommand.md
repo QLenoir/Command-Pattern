@@ -24,7 +24,7 @@ Une personne veut aller ou éteindre son ordinateur :
 **Avec le pattern command :**
 La personne actionne _l’Invoker_ de son ordinateur, ici c'est un switch.  
 La _ConcreteCommande_ « RestartCommand » ou « ShutDownCommand » est exécutée  
-Cela permet ensuite d'invoquer les méthodes _shutDown()_ et _restart()_ du _Computer_. L'encapsulation permet de le faire fonctionner sur n'importe quel objet qui aurait une méthode restart() et shutDown().
+Cela permet ensuite d'invoquer les méthodes _shutDown()_ et _restart()_ du _Computer_ (_Receiver_). L'encapsulation permet de le faire fonctionner sur n'importe quel objet qui aurait une méthode restart() et shutDown().
 
 **Sans pattern command :** 
 La personne commande l'arrêt ou le démarrage de son ordinateur. Il va créer un objet Computer et apeller les méthodes restart() et shutDown().
