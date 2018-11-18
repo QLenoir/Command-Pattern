@@ -1,4 +1,10 @@
-title: Simple Java Template
+title: Design Pattern Command
 plan:
-- title: Java Snippet
-  statement: statement.md
+- title: Presentation
+  statement: fichiers/introduction.md
+- title: Le Pattern Command
+  statement: fichiers/PatternCommand.md
+- title: Un exemple
+  statement: fichiers/ExCommand.md
+- title: Le quizz
+  statement: fichiers/Quizz.md
