@@ -1,12 +1,12 @@
-# Diagramme
+# Diagramme 
 
-Voici le diagramme des classes importantes que nous allons implémenter.  
-La Télécommande va jouer le rôle du _client_, les boutons jouent le rôle _d'invoker_, les _ConcreteCommandes_ ConsoleOn et ConsoleOff vont éxécuter les méthodes nécessaires du _receiver_ Console.  
+Voici le diagramme des classes que nous allons implémenter. Nous allons simuler un système de fichiers.
+Le _FileSystem_ ici va jouer le rôle du _Client_, le fichier _MyFile_ joue ici le rôle _d'invoker_, les _ConcreteCommandes_ CloseFileCommande WriteFileCommand et OpenFileCommand vont éxécuter les méthodes nécessaires du _receiver_ FileSystem.  
 ![Uml exemple of Design Pattern Command](../images/DesignCommand_UmlExemple3.png)  
 
-# Première étape
+# Les _Receiver_
 
-On crée nos objets _receiver_ :
+On crée nos objets _Receiver_ :
 
 - Console :
 ```java
