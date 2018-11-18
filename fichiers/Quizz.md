@@ -7,7 +7,7 @@ Nous allons maintenant vérifier que vous avez bien compris le principe du _Desi
 -[x] D'encapsuler les commandes
 -[ ] Séparer l'algorithme de la structure de données
 
-?[_Command_ est une ?]
+?[Command est une ?]
 -[ ] classe abstraite
 -[ ] superclasse
 -[x] interface
