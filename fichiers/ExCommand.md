@@ -163,7 +163,7 @@ public class FileSystemReceiverUtil {
 
 ```java runnable
 // Interface FileSystemReceiver { autofold 
-public interface FileSystemReceiver {
+interface FileSystemReceiver {
 
 	void openFile();
 	void writeFile();
@@ -171,7 +171,7 @@ public interface FileSystemReceiver {
 }
 // }
 // class UnixFileSystemReceiver implements FileSystemReceiver { autofold
-public class UnixFileSystemReceiver implements FileSystemReceiver {
+class UnixFileSystemReceiver implements FileSystemReceiver {
 
 	public void openFile() {
 		System.out.println("Opening file in unix OS");
@@ -188,7 +188,7 @@ public class UnixFileSystemReceiver implements FileSystemReceiver {
 }
 // }
 // class WindowsFile implements FileSystemReceiver { autofold
-public class WindowsFileSystemReceiver implements FileSystemReceiver {
+class WindowsFileSystemReceiver implements FileSystemReceiver {
 
 	public void openFile() {
 		System.out.println("Opening file in Windows OS");
@@ -206,13 +206,13 @@ public class WindowsFileSystemReceiver implements FileSystemReceiver {
 }
 // }
 // Interface Command { autofold
-public interface Command {
+interface Command {
 
 	void execute();
 }
 // }
 // class OpenFileCommand implements Command { autofold
-public class OpenFileCommand implements Command {
+class OpenFileCommand implements Command {
 
 	private FileSystemReceiver fileSystem;
 	
@@ -228,7 +228,7 @@ public class OpenFileCommand implements Command {
 }
 // }
 // class CloseFileCommand implements Command { autofold
-public class CloseFileCommand implements Command {
+class CloseFileCommand implements Command {
 
 	private FileSystemReceiver fileSystem;
 	
@@ -243,7 +243,7 @@ public class CloseFileCommand implements Command {
 }
 // }
 // class WriteFileCommand implements Command { autofold
-public class WriteFileCommand implements Command {
+class WriteFileCommand implements Command {
 
 	private FileSystemReceiver fileSystem;
 	
@@ -258,7 +258,7 @@ public class WriteFileCommand implements Command {
 }
 // }
 // class FileInvoker { autofold
-public class FileInvoker {
+class FileInvoker {
 
 	public Command command;
 	
@@ -272,7 +272,7 @@ public class FileInvoker {
 }
 // }
 // class FileSystemReceiverUtil { autofold
-public class FileSystemReceiverUtil {
+class FileSystemReceiverUtil {
 	
 	public static FileSystemReceiver getUnderlyingFileSystem(){
 		 String osName = System.getProperty("os.name");
@@ -286,7 +286,7 @@ public class FileSystemReceiverUtil {
 	
 }
 // }
-public class FileSystemClient {
+class FileSystemClient {
 
 	public static void main(String[] args) {
 		//Creating the receiver object
