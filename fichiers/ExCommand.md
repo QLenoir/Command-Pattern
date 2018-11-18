@@ -122,7 +122,7 @@ public class WriteFileCommand implements Command {
 
 }
 ```
-# création de l'_Invoker_
+# Création de l'_Invoker_
 
 Création du _FileInvoker_ (_MyFile_ sur le diagramme): 
 ```java
