@@ -12,7 +12,7 @@ Nous allons maintenant vérifier que vous avez bien compris le principe du _Desi
 -[ ] superclasse
 -[x] interface
 
-?[Quelle classe initliase la requête en premier lieu ?]
+?[Quelle classe initialise la requête en premier lieu ?]
 -[ ] Command
 -[ ] Receiver
 -[x] Invoker
