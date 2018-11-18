@@ -15,7 +15,7 @@ Nous allons maintenant vérifier que vous avez bien compris le principe du _Desi
 ?[Quelle classe initliase la requête en premier lieu ?]
 -[ ] Command
 -[ ] Receiver
--[x] l'invoker
+-[x] Invoker
 
 ?[Quels sont les 3 éléments sur lesquels se repose ce Pattern ?]
 -[ ] Caller
