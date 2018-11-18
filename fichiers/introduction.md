@@ -8,5 +8,5 @@ Un design pattern est conçu pour s’appliquer à un langage orienté objet com
 
 Il existe trois types de design pattern : Création, Structure et Comportemental. Le _Design Pattern Command_ fait partie de la famille comportementale. Les modèles comportementaux sont des modèles de conception qui identifient les modèles de communication communs entre les objets et réalisent ces modèles. Ce faisant, ces modèles augmentent la souplesse dans l'exécution de cette communication. On peut citer le _Design Pattern Visitor_ par exemple. 
 
-Nous allons donc détailler l’utilité du _Pattern command_ , comment est faite son implémentation, ainsi qu’un exemple avec ses possibles applications, nous pourrons ensuite dégager les raisons qui vous pousseront à l’utiliser ?
+Nous allons donc détailler l’utilité du _Pattern Command_ , comment est faite son implémentation, ainsi qu’un exemple avec ses possibles applications, nous pourrons ensuite dégager les raisons qui vous pousseront à l’utiliser ?
 ⊂(◉‿◉)つ
