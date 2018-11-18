@@ -39,7 +39,7 @@ public class UnixFileSystemReceiver implements FileSystemReceiver {
 }
 ```
 
-- Un objet _UnixFileSystemReceiver_ qui implémentera l'interface _FileSystem_ : 
+- Un objet _WindowsFileSystemReceiver_ qui implémentera l'interface _FileSystem_ : 
 ```java
 
 public class WindowsFileSystemReceiver implements FileSystemReceiver {
@@ -170,7 +170,7 @@ public interface FileSystemReceiver {
 	void closeFile();
 }
 // }
-// Class UnixFileSystemReceiver implements FileSystemReceiver { autofold
+// class UnixFileSystemReceiver implements FileSystemReceiver { autofold
 public class UnixFileSystemReceiver implements FileSystemReceiver {
 
 	public void openFile() {
@@ -187,8 +187,8 @@ public class UnixFileSystemReceiver implements FileSystemReceiver {
 
 }
 // }
-// Class WindowsFile implements FileSystemReceiver { autofold
-ublic class WindowsFileSystemReceiver implements FileSystemReceiver {
+// class WindowsFile implements FileSystemReceiver { autofold
+public class WindowsFileSystemReceiver implements FileSystemReceiver {
 
 	public void openFile() {
 		System.out.println("Opening file in Windows OS");
