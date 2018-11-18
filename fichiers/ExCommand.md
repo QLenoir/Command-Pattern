@@ -288,7 +288,7 @@ class FileSystemReceiverUtil {
 // }
 class FileSystemClient {
 
-	public static void main(String[] args) {
+	public static void Main(String[] args) {
 		//Creating the receiver object
 		FileSystemReceiver fs = FileSystemReceiverUtil.getUnderlyingFileSystem();
 		
